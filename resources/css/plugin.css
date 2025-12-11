@@ -33,6 +33,12 @@
     justify-content: center;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+    position: relative;
+}
+
+/* Ensure tooltips work on collapsed items */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+    overflow: visible;
 }
 
 /* Toggle wrapper */
