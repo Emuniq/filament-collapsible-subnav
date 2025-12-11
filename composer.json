@@ -1,6 +1,6 @@
 {
     "name": "emuniq/filament-collapsible-subnav",
-    "description": "A Filament v4 plugin for collapsible sub-navigation sidebar.",
+    "description": "A Filament v3 & v4 plugin for collapsible sub-navigation sidebar.",
     "license": "MIT",
     "keywords": [
         "filament",
@@ -21,6 +21,6 @@
         }
     },
     "require": {
-        "filament/filament": "^4.0"
+        "filament/filament": "^3.0|^4.0"
     }
 }

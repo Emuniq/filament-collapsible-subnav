@@ -1,6 +1,6 @@
 # Filament Collapsible Sub-Navigation
 
-A Filament v4 plugin that adds a collapsible toggle to **sub-navigation sidebars only**. Perfect for resource pages with multiple tabs or sections using `->subNavigationPosition(SubNavigationPosition::Start)`.
+A Filament v3 & v4 plugin that adds a collapsible toggle to **sub-navigation sidebars only**. Perfect for resource pages with multiple tabs or sections using `->subNavigationPosition(SubNavigationPosition::Start)`.
 
 Works with **both top navigation and sidebar navigation** layouts - the plugin specifically targets the sub-navigation sidebar that appears on individual resource pages, not the main panel navigation.
 
@@ -11,7 +11,7 @@ Works with **both top navigation and sidebar navigation** layouts - the plugin s
 
 - PHP 8.1+
 - Laravel 10.0+
-- Filament 4.0+
+- Filament 3.0+ or 4.0+
 - A Filament resource or page using `->subNavigationPosition(SubNavigationPosition::Start)`
 
 **Note:** This plugin only affects **sub-navigation sidebars** (the secondary navigation within resource pages), not the main panel sidebar. It works regardless of whether you use top navigation or sidebar navigation for your main panel layout.
