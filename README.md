@@ -19,9 +19,30 @@ Install the package via composer:
 composer require emuniq/filament-collapsible-subnav
 ```
 
-## Usage
+**That's it!** The plugin automatically registers itself to all Filament panels. No additional configuration needed.
 
-Simply register the plugin in your Panel Provider (e.g., `app/Providers/Filament/AdminPanelProvider.php`):
+## Features
+
+- ✅ **Zero configuration** - Auto-registers to all panels
+- ✅ Collapsible sidebar toggle button
+- ✅ Persistent state using cookies
+- ✅ Server-side rendering support (no FOUC)
+- ✅ Responsive design
+- ✅ Smooth animations
+- ✅ No theme, npm, or build step required
+
+## How It Works
+
+The plugin automatically:
+1. Registers itself to all Filament panels on installation
+2. Injects CSS styles for the collapsible sidebar
+3. Adds a toggle button to sub-navigation sidebars
+4. Manages state persistence via cookies
+5. Applies server-side rendering for seamless loading
+
+## Manual Registration (Optional)
+
+If you prefer manual control, you can prevent auto-registration and register the plugin manually:
 
 ```php
 use Emuniq\FilamentCollapsibleSubnav\CollapsibleSubnavPlugin;
@@ -33,26 +54,6 @@ public function panel(Panel $panel): Panel
         ->plugin(CollapsibleSubnavPlugin::make());
 }
 ```
-
-That's it! The plugin will automatically work with any Filament resource or page using sub-navigation.
-
-## Features
-
-- ✅ Zero configuration - works out of the box
-- ✅ Collapsible sidebar toggle button
-- ✅ Persistent state using cookies
-- ✅ Server-side rendering support (no FOUC)
-- ✅ Responsive design
-- ✅ Smooth animations
-- ✅ No build step required
-
-## How It Works
-
-The plugin automatically:
-1. Injects CSS styles for the collapsible sidebar
-2. Adds a toggle button to sub-navigation sidebars
-3. Manages state persistence via cookies
-4. Applies server-side rendering for seamless loading
 
 
 ## License
