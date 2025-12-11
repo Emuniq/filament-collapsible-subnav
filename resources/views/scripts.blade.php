@@ -14,15 +14,17 @@
     }
 </style>
 
-@php
-    $isSubNavCollapsed = ($_COOKIE['subnav_collapsed'] ?? 'false') === 'true';
-@endphp
-
-@if ($isSubNavCollapsed)
-    <script>
-        document.documentElement.classList.add('fi-subnav-collapsed');
-    </script>
-@endif
+<script>
+    // Apply collapsed class IMMEDIATELY before any rendering - runs synchronously
+    (function() {
+        var isCollapsed = document.cookie.split('; ').find(function(row) {
+            return row.startsWith('subnav_collapsed=');
+        });
+        if (isCollapsed && isCollapsed.split('=')[1] === 'true') {
+            document.documentElement.classList.add('fi-subnav-collapsed');
+        }
+    })();
+</script>
 
 <script>
     document.addEventListener('alpine:init', () => {
