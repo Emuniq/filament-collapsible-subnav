@@ -4,32 +4,6 @@ A Filament v4 plugin that provides a collapsible sidebar for sub-navigation page
 
 ## Installation
 
-### Local Development
-To use this plugin locally before publishing, add a module repository to your application's `composer.json`:
-
-```json
-"repositories": [
-    {
-        "type": "path",
-        "url": "./packages/filament-collapsible-subnav"
-    }
-],
-```
-
-Then require the package:
-
-```bash
-composer require emuniq/filament-collapsible-subnav
-```
-
-### Publishing to Packagist
-1.  **Create a Repository**: Create a new repository on GitHub (e.g., `emuniq/filament-collapsible-subnav`).
-2.  **Push Code**: Initialize git inside `packages/filament-collapsible-subnav` and push to GitHub.
-3.  **Packagist**: Go to [packagist.org](https://packagist.org), log in, and submit your GitHub repository URL.
-4.  **Install**: Once published, anyone can install via `composer require emuniq/filament-collapsible-subnav`.
-
-## Usage
-
 ### 1. Register the Plugin & Layout
 In your `AdminPanelProvider` (usually `app/Providers/Filament/AdminPanelProvider.php`), register the plugin and override the layout:
 

@@ -12,8 +12,6 @@ class CollapsibleSubnavServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-collapsible-subnav');
 
-        FilamentAsset::register([
-             Css::make('collapsible-subnav', __DIR__ . '/../resources/dist/plugin.css'),
-        ], 'emuniq/filament-collapsible-subnav');
+
     }
 }
