@@ -38,33 +38,45 @@
                         const button = item.querySelector('.fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
                         
-                        if (button && label && !button.hasAttribute('x-tooltip')) {
+                        if (button && label && !button.hasAttribute('data-tippy-content')) {
                             const labelText = label.textContent.trim();
-                            button.setAttribute('x-tooltip', `{
-                                content: '${labelText.replace(/'/g, "\\'")}',
-                                theme: $store.theme,
-                            }`);
+                            
+                            // Use Tippy directly for better compatibility
+                            if (typeof tippy !== 'undefined') {
+                                tippy(button, {
+                                    content: labelText,
+                                    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+                                });
+                            } else {
+                                // Fallback: Set attribute for Alpine's x-tooltip directive
+                                button.setAttribute('x-tooltip', JSON.stringify({
+                                    content: labelText,
+                                    theme: '$store.theme',
+                                }));
+                            }
                         }
                     });
 
-                    // Reinitialize Alpine for new tooltips
-                    if (window.Alpine && sidebar._x_dataStack === undefined) {
+                    // If using x-tooltip attributes, reinitialize Alpine
+                    if (typeof tippy === 'undefined' && window.Alpine) {
                         Alpine.initTree(sidebar);
                     }
-                }, 250);
+                }, 350);
             },
 
             removeTooltips() {
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
-                const items = sidebar.querySelectorAll('.fi-sidebar-item-button[x-tooltip]');
+                const items = sidebar.querySelectorAll('.fi-sidebar-item-button');
                 items.forEach(button => {
-                    button.removeAttribute('x-tooltip');
-                    // Destroy tooltip instance if exists
+                    // Destroy Tippy instance if it exists
                     if (button._tippy) {
                         button._tippy.destroy();
                     }
+                    // Remove x-tooltip attribute
+                    button.removeAttribute('x-tooltip');
+                    button.removeAttribute('data-tippy-content');
                 });
             }
         });
@@ -75,6 +87,6 @@
             if (!Alpine.store('subnav').isOpen) {
                 Alpine.store('subnav').addTooltips();
             }
-        }, 300);
+        }, 400);
     });
 </script>
