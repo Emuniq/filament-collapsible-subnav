@@ -24,6 +24,10 @@ class CollapsibleSubnavPlugin implements Plugin
             ->renderHook(
                 PanelsRenderHook::HEAD_START,
                 fn () => view('filament-collapsible-subnav::scripts')
+            )
+            ->renderHook(
+                PanelsRenderHook::HEAD_START,
+                fn () => view('filament-collapsible-subnav::critical-css')
             );
     }
 
