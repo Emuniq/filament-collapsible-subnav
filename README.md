@@ -26,28 +26,18 @@ Install the package via composer:
 composer require emuniq/filament-collapsible-subnav
 ```
 
-**That's it!** The plugin will:
-- ✅ Auto-register to all Filament panels
-- ✅ Auto-detect existing themes and add CSS import
-- ✅ Work immediately with inline CSS fallback
+**That's it!** The plugin will auto-register to all panels and work immediately with zero flash.
 
-### Post-Installation
+### Optional: Theme Integration
 
-If the installer detected a Filament theme, simply rebuild your assets:
-
-```bash
-npm run build
-```
-
-This provides a completely flash-free experience. If no theme was detected, the plugin works immediately with inline CSS (may have a slight flash on page refresh when collapsed).
-
-### Manual Theme Integration (Optional)
-
-If you want to manually add the plugin to your theme later:
+For a slight performance boost, you can integrate the CSS into your Filament theme:
 
 ```bash
 php artisan collapsible-subnav:install
+npm run build
 ```
+
+This bundles the plugin CSS with your theme, reducing HTTP requests. **Not required** - the plugin works perfectly without this step.
 
 ## Features
 
