@@ -14,8 +14,9 @@
     }
 </style>
 
-<script>
+<script data-cfasync="false">
     // Apply collapsed class IMMEDIATELY before any rendering - runs synchronously
+    // data-cfasync="false" prevents Cloudflare Rocket Loader from deferring this critical script
     (function() {
         var isCollapsed = document.cookie.split('; ').find(function(row) {
             return row.startsWith('subnav_collapsed=');
