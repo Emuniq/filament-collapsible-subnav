@@ -2,8 +2,8 @@
 
 A Filament v4 plugin that provides a collapsible sidebar for sub-navigation pages (e.g., when using `->subNavigationPosition(SubNavigationPosition::Start)`). It persists state across reloads via cookies, supports server-side rendering to prevent FOUC, and is responsive.
 
-![Expanded Sidebar](images/expanded.png)
-![Collapsed Sidebar](images/collapsed.png)
+![Expanded Sidebar](images/sidebar-expanded.png)
+![Collapsed Sidebar](images/sidebar-collapsed.png)
 
 ## Installation
 
@@ -54,25 +54,6 @@ Create `resources/views/vendor/filament-panels/components/layout/base.blade.php`
 
 This effectively wraps your panel in the collapsible sub-navigation layout.
 
-## Publishing & Updates
-
-### Push to GitHub
-If you have local changes, push them to the repository:
-
-```bash
-git push origin main
-```
-
-### Packagist & GitHub Hook
-To automatically update Packagist when you push to GitHub:
-1.  Log in to [Packagist.org](https://packagist.org) using your GitHub account.
-2.  Submit your repository URL: `https://github.com/Emuniq/filament-collapsible-subnav`.
-3.  **Automatic Hook:** If you logged in via GitHub, Packagist should automatically set up the service hook.
-4.  **Manual Hook:** If needed, go to your GitHub Repo -> **Settings** -> **Webhooks**.
-    *   Add user `packagist` (if using the "Integrations" section) or set Payload URL to `https://packagist.org/api/github?username=Emuniq`.
-    *   Content type: `application/json`.
-    *   Secret: (Your Packagist API Token).
-    *   Events: `push`.
 
 ## License
 
