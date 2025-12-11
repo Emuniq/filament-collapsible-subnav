@@ -29,18 +29,33 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-### 2. Import CSS
-Add the plugin's CSS to your theme's stylesheet (e.g., `resources/css/filament/admin/theme.css`).
-This plugin uses Tailwind CSS v4 `@source` directives.
+### 2. Create or Update Theme CSS
+If you don't have a custom theme yet, create one:
+
+```bash
+php artisan make:filament-theme
+```
+
+Then add the plugin's CSS to your theme's stylesheet (e.g., `resources/css/filament/admin/theme.css`):
 
 ```css
 @import '../../../../vendor/emuniq/filament-collapsible-subnav/resources/css/theme.css';
 ```
-*(Note: Adjust the path if necessary. If developing locally via `path` repository, use the relative path to your packages folder).*
 
-### 3. Override Layout
-To apply the collapsible layout, you must override Filament's base layout component.
-Create `resources/views/vendor/filament-panels/components/layout/base.blade.php` with the following content:
+After importing, rebuild your assets:
+
+```bash
+npm run build
+```
+
+### 3. Publish and Override Layout
+Publish Filament's views (if not already done):
+
+```bash
+php artisan vendor:publish --tag=filament-panels-views
+```
+
+Then edit `resources/views/vendor/filament-panels/components/layout/base.blade.php` and replace its content with:
 
 ```blade
 @props([
@@ -53,6 +68,21 @@ Create `resources/views/vendor/filament-panels/components/layout/base.blade.php`
 ```
 
 This effectively wraps your panel in the collapsible sub-navigation layout.
+
+## Requirements
+
+- PHP 8.1+
+- Laravel 10.0+
+- Filament 4.0+
+- A Filament resource or page using `->subNavigationPosition(SubNavigationPosition::Start)`
+
+## Features
+
+- ✅ Collapsible sidebar toggle button
+- ✅ Persistent state using cookies
+- ✅ Server-side rendering support (no FOUC)
+- ✅ Responsive design
+- ✅ Smooth animations
 
 
 ## License
