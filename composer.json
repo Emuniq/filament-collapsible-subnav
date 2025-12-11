@@ -1,0 +1,26 @@
+{
+    "name": "emuniq/filament-collapsible-subnav",
+    "description": "A Filament v4 plugin for collapsible sub-navigation sidebar.",
+    "license": "MIT",
+    "keywords": [
+        "filament",
+        "laravel",
+        "subnavigation",
+        "sidebar"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Emuniq\\FilamentCollapsibleSubnav\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Emuniq\\FilamentCollapsibleSubnav\\CollapsibleSubnavServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "filament/filament": "^4.0"
+    }
+}

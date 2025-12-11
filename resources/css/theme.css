@@ -1,0 +1,54 @@
+@source '../views/**/*';
+
+/* Sub-navigation collapsible sidebar styles */
+
+/* Main flex container for sub-navigation pages */
+.fi-page-main {
+    @apply flex gap-6;
+}
+
+/* Sidebar container */
+.fi-page-sub-navigation-sidebar-ctn {
+    @apply flex-shrink-0;
+    flex-basis: 16rem;
+}
+
+/* Content fills remaining space */
+.fi-page-content {
+    @apply flex-1 min-w-0;
+}
+
+/* Collapsed state */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar-ctn {
+    flex-basis: 4rem !important;
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
+    @apply hidden;
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+    @apply justify-center px-3;
+}
+
+/* Toggle wrapper */
+.fi-subnav-toggle-wrapper {
+    @apply flex justify-end p-2;
+}
+
+.fi-subnav-collapsed .fi-subnav-toggle-wrapper {
+    @apply justify-center;
+}
+
+@media (max-width: 767px) {
+    .fi-subnav-toggle-wrapper {
+        @apply hidden;
+    }
+}
+
+/* Smooth transitions only when ready */
+.fi-subnav-ready .fi-page-sub-navigation-sidebar-ctn {
+    @apply transition-all duration-200 ease-out;
+}
