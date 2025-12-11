@@ -4,8 +4,11 @@ A Filament v3 & v4 plugin that adds a collapsible toggle to **sub-navigation sid
 
 Works with **both top navigation and sidebar navigation** layouts - the plugin specifically targets the sub-navigation sidebar that appears on individual resource pages, not the main panel navigation.
 
-![Expanded Sidebar](images/sidebar-expanded.png)
-![Collapsed Sidebar](images/sidebar-collapsed.png)
+**Without Top Navigation (Sidebar Layout):**
+![Expanded Sidebar](images/regular.png)
+
+**With Top Navigation:**
+![Collapsed Sidebar](images/topbar.png)
 
 ## Requirements
 
@@ -38,14 +41,14 @@ composer require emuniq/filament-collapsible-subnav
 
 ## How It Works
 
-The plugin automatically:**sub-navigation sidebars only** (not main panel navigation)
+The plugin automatically:
+1. Registers itself to all Filament panels on installation
+2. Injects CSS styles for the collapsible sidebar
+3. Adds a toggle button to **sub-navigation sidebars only** (not main panel navigation)
 4. Manages state persistence via cookies
 5. Applies server-side rendering for seamless loading
 
 The plugin detects pages with sub-navigation and only applies to those specific sidebars, leaving your main panel navigation (top or sidebar) untouched.
-3. Adds a toggle button to sub-navigation sidebars
-4. Manages state persistence via cookies
-5. Applies server-side rendering for seamless loading
 
 ## Manual Registration (Optional)
 
