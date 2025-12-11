@@ -1,6 +1,8 @@
 # Filament Collapsible Sub-Navigation
 
-A Filament v4 plugin that provides a collapsible sidebar for sub-navigation pages (e.g., when using `->subNavigationPosition(SubNavigationPosition::Start)`). It persists state across reloads via cookies, supports server-side rendering to prevent FOUC, and is responsive.
+A Filament v4 plugin that adds a collapsible toggle to **sub-navigation sidebars only**. Perfect for resource pages with multiple tabs or sections using `->subNavigationPosition(SubNavigationPosition::Start)`.
+
+Works with **both top navigation and sidebar navigation** layouts - the plugin specifically targets the sub-navigation sidebar that appears on individual resource pages, not the main panel navigation.
 
 ![Expanded Sidebar](images/sidebar-expanded.png)
 ![Collapsed Sidebar](images/sidebar-collapsed.png)
@@ -10,6 +12,9 @@ A Filament v4 plugin that provides a collapsible sidebar for sub-navigation page
 - PHP 8.1+
 - Laravel 10.0+
 - Filament 4.0+
+- A Filament resource or page using `->subNavigationPosition(SubNavigationPosition::Start)`
+
+**Note:** This plugin only affects **sub-navigation sidebars** (the secondary navigation within resource pages), not the main panel sidebar. It works regardless of whether you use top navigation or sidebar navigation for your main panel layout.
 
 ## Installation
 
@@ -33,9 +38,11 @@ composer require emuniq/filament-collapsible-subnav
 
 ## How It Works
 
-The plugin automatically:
-1. Registers itself to all Filament panels on installation
-2. Injects CSS styles for the collapsible sidebar
+The plugin automatically:**sub-navigation sidebars only** (not main panel navigation)
+4. Manages state persistence via cookies
+5. Applies server-side rendering for seamless loading
+
+The plugin detects pages with sub-navigation and only applies to those specific sidebars, leaving your main panel navigation (top or sidebar) untouched.
 3. Adds a toggle button to sub-navigation sidebars
 4. Manages state persistence via cookies
 5. Applies server-side rendering for seamless loading
