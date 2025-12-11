@@ -22,5 +22,13 @@
     },
     "require": {
         "filament/filament": "^3.0|^4.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php artisan collapsible-subnav:install --ansi || true"
+        ],
+        "post-update-cmd": [
+            "@php artisan collapsible-subnav:install --ansi || true"
+        ]
     }
 }
