@@ -5,6 +5,7 @@ namespace Emuniq\FilamentCollapsibleSubnav;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 
 class CollapsibleSubnavPlugin implements Plugin
 {
@@ -19,6 +20,10 @@ class CollapsibleSubnavPlugin implements Plugin
             ->renderHook(
                 PanelsRenderHook::PAGE_SUB_NAVIGATION_SIDEBAR_BEFORE,
                 fn () => view('filament-collapsible-subnav::toggle')
+            )
+            ->renderHook(
+                PanelsRenderHook::HEAD_START,
+                fn () => view('filament-collapsible-subnav::scripts')
             );
     }
 
