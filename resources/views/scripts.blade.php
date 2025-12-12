@@ -106,6 +106,6 @@
             if (!Alpine.store('subnav').isOpen) {
                 Alpine.store('subnav').addTooltips();
             }
-        }, 400);
+        }, 100);
     });
 </script>

@@ -60,7 +60,24 @@
 
 /* Smooth transitions only when ready */
 .fi-subnav-ready .fi-page-sub-navigation-sidebar-ctn {
-    transition-property: all;
+    transition-property: flex-basis;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
+    transition-duration: 300ms;
+}
+
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+.fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
+.fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
+    opacity: 0;
+    transform: translateX(-8px);
+}
+
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+    transition: padding 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
