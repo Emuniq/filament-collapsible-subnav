@@ -52,34 +52,35 @@
                     const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                     if (!sidebar) return;
 
+                    const isDark = document.documentElement.classList.contains('dark');
                     const items = sidebar.querySelectorAll('.fi-sidebar-item');
+
                     items.forEach(item => {
                         const button = item.querySelector('.fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
-                        
-                        if (button && label && !button.hasAttribute('data-tippy-content')) {
-                            const labelText = label.textContent.trim();
-                            
-                            // Use Tippy directly for better compatibility
-                            if (typeof tippy !== 'undefined') {
-                                tippy(button, {
-                                    content: labelText,
-                                    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-                                });
-                            } else {
-                                // Fallback: Set attribute for Alpine's x-tooltip directive
-                                button.setAttribute('x-tooltip', JSON.stringify({
-                                    content: labelText,
-                                    theme: '$store.theme',
-                                }));
-                            }
+
+                        if (!button || !label) return;
+                        if (button.hasAttribute('data-subnav-tooltip')) return;
+
+                        const labelText = label.textContent.trim();
+                        if (!labelText) return;
+
+                        // Always set a native `title` so a tooltip is guaranteed
+                        // even when Tippy isn't exposed globally (e.g. Filament v4).
+                        button.setAttribute('title', labelText);
+                        button.setAttribute('data-subnav-tooltip', '1');
+
+                        // Upgrade to Tippy when available for a styled tooltip.
+                        if (typeof tippy !== 'undefined') {
+                            tippy(button, {
+                                content: labelText,
+                                placement: 'right',
+                                theme: isDark ? 'dark' : 'light',
+                            });
+                            // Avoid the browser showing the native tooltip on top of Tippy.
+                            button.removeAttribute('title');
                         }
                     });
-
-                    // If using x-tooltip attributes, reinitialize Alpine
-                    if (typeof tippy === 'undefined' && window.Alpine) {
-                        Alpine.initTree(sidebar);
-                    }
                 }, 350);
             },
 
@@ -87,15 +88,12 @@
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
-                const items = sidebar.querySelectorAll('.fi-sidebar-item-button');
-                items.forEach(button => {
-                    // Destroy Tippy instance if it exists
+                sidebar.querySelectorAll('.fi-sidebar-item-button').forEach(button => {
                     if (button._tippy) {
                         button._tippy.destroy();
                     }
-                    // Remove x-tooltip attribute
-                    button.removeAttribute('x-tooltip');
-                    button.removeAttribute('data-tippy-content');
+                    button.removeAttribute('title');
+                    button.removeAttribute('data-subnav-tooltip');
                 });
             }
         });
