@@ -51,9 +51,12 @@
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
     content: attr(data-subnav-tooltip);
     position: absolute;
-    left: calc(100% + 0.5rem);
+    left: 100%;
     top: 50%;
     transform: translateY(-50%);
+    /* Pull the tooltip back into the button's empty right padding so it
+       sits flush with the icon. */
+    margin-left: -0.5rem;
     background-color: rgb(17 24 39);
     color: rgb(255 255 255);
     padding: 0.375rem 0.625rem;

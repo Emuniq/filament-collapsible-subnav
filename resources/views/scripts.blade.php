@@ -34,7 +34,10 @@
         left: 100%;
         top: 50%;
         transform: translateY(-50%);
-        margin-left: 0.5rem;
+        /* Pull the tooltip back into the button's empty right padding so it
+           sits flush with the icon (icon is centred in a 4rem collapsed
+           button with 0.75rem horizontal padding). */
+        margin-left: -0.5rem;
         background-color: rgb(17 24 39);
         color: rgb(255 255 255);
         padding: 0.375rem 0.625rem;
@@ -101,23 +104,22 @@
                         // Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`.
                         const button = item.querySelector('.fi-sidebar-item-btn, .fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
-                        const icon = item.querySelector('.fi-sidebar-item-icon');
 
                         if (!button || !label) return;
-                        if (button.hasAttribute('data-subnav-tooltip-anchored')) return;
+                        if (button.hasAttribute('data-subnav-tooltip')) return;
 
                         const labelText = label.textContent.trim();
                         if (!labelText) return;
 
-                        // Anchor the visual tooltip on the icon (24×24, centred in
-                        // the 4rem collapsed button) so it sits flush with the icon.
-                        // Anchoring on the button itself puts the tooltip past the
-                        // button's right padding, which looks far from the icon.
-                        // The aria-label stays on the button so screen readers and
-                        // keyboard focus pick it up correctly.
-                        (icon || button).setAttribute('data-subnav-tooltip', labelText);
+                        // The attribute must live on an HTML element (here the
+                        // `<a>`/`<button>`) because the `::after` tooltip is a CSS
+                        // pseudo-element and SVG elements do not support those.
+                        // Filament v4's sidebar icon is a bare `<svg>`, so we can't
+                        // anchor on it directly. The CSS uses a negative margin to
+                        // pull the tooltip back into the button's right padding so
+                        // it sits flush with the icon visually.
+                        button.setAttribute('data-subnav-tooltip', labelText);
                         button.setAttribute('aria-label', labelText);
-                        button.setAttribute('data-subnav-tooltip-anchored', '1');
                     });
                 }, 350);
             },
@@ -126,10 +128,9 @@
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
-                sidebar.querySelectorAll('[data-subnav-tooltip]').forEach(el => el.removeAttribute('data-subnav-tooltip'));
                 sidebar.querySelectorAll('.fi-sidebar-item-btn, .fi-sidebar-item-button').forEach(button => {
+                    button.removeAttribute('data-subnav-tooltip');
                     button.removeAttribute('aria-label');
-                    button.removeAttribute('data-subnav-tooltip-anchored');
                 });
             }
         });
