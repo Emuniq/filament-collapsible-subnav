@@ -100,12 +100,24 @@
             }
         });
 
-        // Enable transitions after load and init tooltips if collapsed
-        setTimeout(() => {
+        const syncSubnavFromStore = () => {
             document.documentElement.classList.add('fi-subnav-ready');
-            if (!Alpine.store('subnav').isOpen) {
-                Alpine.store('subnav').addTooltips();
+            const subnavStore = Alpine.store('subnav');
+            if (!subnavStore) return;
+
+            if (subnavStore.isOpen) {
+                document.documentElement.classList.remove('fi-subnav-collapsed');
+                subnavStore.removeTooltips();
+            } else {
+                document.documentElement.classList.add('fi-subnav-collapsed');
+                subnavStore.addTooltips();
             }
-        }, 100);
+        };
+
+        // Enable transitions after load and init tooltips if collapsed
+        setTimeout(syncSubnavFromStore, 100);
+
+        // Re-sync after Livewire SPA navigation
+        document.addEventListener('livewire:navigated', syncSubnavFromStore);
     });
 </script>
