@@ -13,6 +13,49 @@
         justify-content: center;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
+        position: relative;
+        overflow: visible;
+    }
+    /* Allow the tooltip to escape sidebar/group clipping. */
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar-ctn,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-items,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item {
+        overflow: visible !important;
+    }
+    /* CSS-only tooltip — works in v3/v4/v5, no JS deps, instant. */
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip] {
+        position: relative;
+    }
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+        content: attr(data-subnav-tooltip);
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 0.5rem;
+        background-color: rgb(17 24 39);
+        color: rgb(255 255 255);
+        padding: 0.375rem 0.625rem;
+        border-radius: 0.375rem;
+        font-size: 0.75rem;
+        line-height: 1;
+        font-weight: 500;
+        white-space: nowrap;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 120ms ease 40ms;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:hover::after,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:focus-visible::after {
+        opacity: 1;
+    }
+    .dark.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+        background-color: rgb(243 244 246);
+        color: rgb(17 24 39);
     }
 </style>
 
