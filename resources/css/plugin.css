@@ -25,20 +25,62 @@
 
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     display: none;
 }
 
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+/* Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`. */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
     justify-content: center;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     position: relative;
+    overflow: visible;
 }
 
-/* Ensure tooltips work on collapsed items */
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
-    overflow: visible;
+/* CSS-only tooltip for collapsed items. Filament v3 exposed Tippy globally;
+   v4 doesn't, and Alpine's x-tooltip directive can't be applied retroactively
+   after init. A pure-CSS pseudo-element renders instantly on hover, with no
+   JS deps, and looks consistent across v3/v4/v5. */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip] {
+    position: relative;
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+    content: attr(data-subnav-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Pull the tooltip back into the button's empty right padding so it
+       sits flush with the icon. */
+    margin-left: -0.5rem;
+    background-color: rgb(17 24 39);
+    color: rgb(255 255 255);
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    line-height: 1;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease 60ms;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:hover [data-subnav-tooltip]::after,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:focus-within [data-subnav-tooltip]::after {
+    opacity: 1;
+}
+
+/* Dark mode: invert the tooltip for contrast against the dark sidebar. */
+.dark.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+    background-color: rgb(243 244 246);
+    color: rgb(17 24 39);
 }
 
 /* Toggle wrapper */
@@ -67,17 +109,20 @@
 
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 }
 
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     opacity: 0;
     transform: translateX(-8px);
 }
 
-.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
     transition: padding 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }

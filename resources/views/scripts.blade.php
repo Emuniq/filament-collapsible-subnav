@@ -6,11 +6,59 @@
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar-ctn { flex-basis: 4rem !important; }
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-badge,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-label { display: none; }
-    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
         justify-content: center;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
+        position: relative;
+        overflow: visible;
+    }
+    /* Allow the tooltip to escape sidebar/group clipping. */
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar-ctn,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-items,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item {
+        overflow: visible !important;
+    }
+    /* CSS-only tooltip — works in v3/v4/v5, no JS deps, instant. */
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip] {
+        position: relative;
+    }
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+        content: attr(data-subnav-tooltip);
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        /* Pull the tooltip back into the button's empty right padding so it
+           sits flush with the icon (icon is centred in a 4rem collapsed
+           button with 0.75rem horizontal padding). */
+        margin-left: -0.5rem;
+        background-color: rgb(17 24 39);
+        color: rgb(255 255 255);
+        padding: 0.375rem 0.625rem;
+        border-radius: 0.375rem;
+        font-size: 0.75rem;
+        line-height: 1;
+        font-weight: 500;
+        white-space: nowrap;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 120ms ease 40ms;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:hover [data-subnav-tooltip]::after,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:focus-within [data-subnav-tooltip]::after {
+        opacity: 1;
+    }
+    .dark.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+        background-color: rgb(243 244 246);
+        color: rgb(17 24 39);
     }
 </style>
 
@@ -52,34 +100,27 @@
                     const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                     if (!sidebar) return;
 
-                    const items = sidebar.querySelectorAll('.fi-sidebar-item');
-                    items.forEach(item => {
-                        const button = item.querySelector('.fi-sidebar-item-button');
+                    sidebar.querySelectorAll('.fi-sidebar-item').forEach(item => {
+                        // Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`.
+                        const button = item.querySelector('.fi-sidebar-item-btn, .fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
-                        
-                        if (button && label && !button.hasAttribute('data-tippy-content')) {
-                            const labelText = label.textContent.trim();
-                            
-                            // Use Tippy directly for better compatibility
-                            if (typeof tippy !== 'undefined') {
-                                tippy(button, {
-                                    content: labelText,
-                                    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-                                });
-                            } else {
-                                // Fallback: Set attribute for Alpine's x-tooltip directive
-                                button.setAttribute('x-tooltip', JSON.stringify({
-                                    content: labelText,
-                                    theme: '$store.theme',
-                                }));
-                            }
-                        }
-                    });
 
-                    // If using x-tooltip attributes, reinitialize Alpine
-                    if (typeof tippy === 'undefined' && window.Alpine) {
-                        Alpine.initTree(sidebar);
-                    }
+                        if (!button || !label) return;
+                        if (button.hasAttribute('data-subnav-tooltip')) return;
+
+                        const labelText = label.textContent.trim();
+                        if (!labelText) return;
+
+                        // The attribute must live on an HTML element (here the
+                        // `<a>`/`<button>`) because the `::after` tooltip is a CSS
+                        // pseudo-element and SVG elements do not support those.
+                        // Filament v4's sidebar icon is a bare `<svg>`, so we can't
+                        // anchor on it directly. The CSS uses a negative margin to
+                        // pull the tooltip back into the button's right padding so
+                        // it sits flush with the icon visually.
+                        button.setAttribute('data-subnav-tooltip', labelText);
+                        button.setAttribute('aria-label', labelText);
+                    });
                 }, 350);
             },
 
@@ -87,25 +128,31 @@
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
-                const items = sidebar.querySelectorAll('.fi-sidebar-item-button');
-                items.forEach(button => {
-                    // Destroy Tippy instance if it exists
-                    if (button._tippy) {
-                        button._tippy.destroy();
-                    }
-                    // Remove x-tooltip attribute
-                    button.removeAttribute('x-tooltip');
-                    button.removeAttribute('data-tippy-content');
+                sidebar.querySelectorAll('.fi-sidebar-item-btn, .fi-sidebar-item-button').forEach(button => {
+                    button.removeAttribute('data-subnav-tooltip');
+                    button.removeAttribute('aria-label');
                 });
             }
         });
 
-        // Enable transitions after load and init tooltips if collapsed
-        setTimeout(() => {
+        const syncSubnavFromStore = () => {
             document.documentElement.classList.add('fi-subnav-ready');
-            if (!Alpine.store('subnav').isOpen) {
-                Alpine.store('subnav').addTooltips();
+            const subnavStore = Alpine.store('subnav');
+            if (!subnavStore) return;
+
+            if (subnavStore.isOpen) {
+                document.documentElement.classList.remove('fi-subnav-collapsed');
+                subnavStore.removeTooltips();
+            } else {
+                document.documentElement.classList.add('fi-subnav-collapsed');
+                subnavStore.addTooltips();
             }
-        }, 100);
+        };
+
+        // Enable transitions after load and init tooltips if collapsed
+        setTimeout(syncSubnavFromStore, 100);
+
+        // Re-sync after Livewire SPA navigation
+        document.addEventListener('livewire:navigated', syncSubnavFromStore);
     });
 </script>
