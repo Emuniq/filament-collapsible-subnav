@@ -33,7 +33,31 @@
 /* Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`. */
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
-    @apply justify-center px-3;
+    @apply justify-center px-3 relative;
+}
+
+/* CSS-only tooltip for collapsed items. Filament v4 doesn't expose Tippy
+   globally and Alpine's x-tooltip directive can't be applied retroactively,
+   so we ship a small pseudo-element tooltip that renders instantly. */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip] {
+    @apply relative;
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+    content: attr(data-subnav-tooltip);
+    @apply absolute top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1.5 rounded-md text-xs font-medium leading-none whitespace-nowrap shadow-md bg-gray-900 text-white opacity-0 pointer-events-none;
+    left: 100%;
+    z-index: 50;
+    transition: opacity 120ms ease 60ms;
+}
+
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:hover::after,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:focus-visible::after {
+    @apply opacity-100;
+}
+
+.dark.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
+    @apply bg-gray-100 text-gray-900;
 }
 
 /* Toggle wrapper */
