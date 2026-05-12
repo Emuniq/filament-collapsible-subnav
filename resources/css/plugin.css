@@ -69,8 +69,8 @@
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:hover::after,
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:focus-visible::after {
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:hover [data-subnav-tooltip]::after,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:focus-within [data-subnav-tooltip]::after {
     opacity: 1;
 }
 

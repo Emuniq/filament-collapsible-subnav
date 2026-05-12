@@ -49,8 +49,8 @@
         transition: opacity 120ms ease 40ms;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
-    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:hover::after,
-    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:focus-visible::after {
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:hover [data-subnav-tooltip]::after,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:focus-within [data-subnav-tooltip]::after {
         opacity: 1;
     }
     .dark.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]::after {
@@ -101,18 +101,23 @@
                         // Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`.
                         const button = item.querySelector('.fi-sidebar-item-btn, .fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
+                        const icon = item.querySelector('.fi-sidebar-item-icon');
 
                         if (!button || !label) return;
-                        if (button.hasAttribute('data-subnav-tooltip')) return;
+                        if (button.hasAttribute('data-subnav-tooltip-anchored')) return;
 
                         const labelText = label.textContent.trim();
                         if (!labelText) return;
 
-                        // The label itself is used by the CSS-only tooltip (::after)
-                        // and as the accessible name. We deliberately avoid `title`
-                        // because the browser's native tooltip is slow (1.5-3s).
-                        button.setAttribute('data-subnav-tooltip', labelText);
+                        // Anchor the visual tooltip on the icon (24×24, centred in
+                        // the 4rem collapsed button) so it sits flush with the icon.
+                        // Anchoring on the button itself puts the tooltip past the
+                        // button's right padding, which looks far from the icon.
+                        // The aria-label stays on the button so screen readers and
+                        // keyboard focus pick it up correctly.
+                        (icon || button).setAttribute('data-subnav-tooltip', labelText);
                         button.setAttribute('aria-label', labelText);
+                        button.setAttribute('data-subnav-tooltip-anchored', '1');
                     });
                 }, 350);
             },
@@ -121,9 +126,10 @@
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
+                sidebar.querySelectorAll('[data-subnav-tooltip]').forEach(el => el.removeAttribute('data-subnav-tooltip'));
                 sidebar.querySelectorAll('.fi-sidebar-item-btn, .fi-sidebar-item-button').forEach(button => {
-                    button.removeAttribute('data-subnav-tooltip');
                     button.removeAttribute('aria-label');
+                    button.removeAttribute('data-subnav-tooltip-anchored');
                 });
             }
         });

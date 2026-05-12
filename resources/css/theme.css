@@ -51,8 +51,8 @@
     transition: opacity 120ms ease 60ms;
 }
 
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:hover::after,
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar [data-subnav-tooltip]:focus-visible::after {
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:hover [data-subnav-tooltip]::after,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item:focus-within [data-subnav-tooltip]::after {
     @apply opacity-100;
 }
 
