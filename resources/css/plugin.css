@@ -25,19 +25,18 @@
 
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     display: none;
 }
 
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+/* Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`. */
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
     justify-content: center;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     position: relative;
-}
-
-/* Ensure tooltips work on collapsed items */
-.fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
     overflow: visible;
 }
 
@@ -67,17 +66,20 @@
 
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 }
 
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-badge,
+.fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
 .fi-subnav-collapsed.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-group-label {
     opacity: 0;
     transform: translateX(-8px);
 }
 
-.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+.fi-subnav-ready .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
     transition: padding 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }

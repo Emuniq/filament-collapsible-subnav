@@ -6,8 +6,10 @@
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar-ctn { flex-basis: 4rem !important; }
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-label,
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-badge,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-badge-ctn,
     .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-group-label { display: none; }
-    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button {
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-button,
+    .fi-subnav-collapsed .fi-page-sub-navigation-sidebar .fi-sidebar-item-btn {
         justify-content: center;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
@@ -56,7 +58,8 @@
                     const items = sidebar.querySelectorAll('.fi-sidebar-item');
 
                     items.forEach(item => {
-                        const button = item.querySelector('.fi-sidebar-item-button');
+                        // Filament v3 uses `.fi-sidebar-item-button`; v4+ uses `.fi-sidebar-item-btn`.
+                        const button = item.querySelector('.fi-sidebar-item-btn, .fi-sidebar-item-button');
                         const label = item.querySelector('.fi-sidebar-item-label');
 
                         if (!button || !label) return;
@@ -88,7 +91,7 @@
                 const sidebar = document.querySelector('.fi-page-sub-navigation-sidebar');
                 if (!sidebar) return;
 
-                sidebar.querySelectorAll('.fi-sidebar-item-button').forEach(button => {
+                sidebar.querySelectorAll('.fi-sidebar-item-btn, .fi-sidebar-item-button').forEach(button => {
                     if (button._tippy) {
                         button._tippy.destroy();
                     }
